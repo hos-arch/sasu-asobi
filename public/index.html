@@ -224,7 +224,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #e0b24a;outline-offse
         <p class="note">ペグは、どの穴に入れてもかまいません。入れたペグは、指でつまんで抜くこともできます。</p>
       </div>
       <div class="row" data-only="futosa">
-        <p class="note">左が細い棒、右が太い棒です。輪は、穴の大きさが合う棒にだけ入ります。合わない棒では、上にのってもどります。</p>
+        <p class="note">左が細い棒、右が太い棒です。輪は外の大きさがみな同じで、中の穴の大きさが棒の太さに合うものだけ入ります。合わない棒では、上にのってもどります。</p>
       </div>
       <div class="row">
         <p class="note">手助け「大きい」は、台の上のどこで離しても、合う所へ入ります。「小さい」は、穴や棒のすぐ近くで離したときだけ入ります。</p>
@@ -499,12 +499,16 @@ function buildPlasten(){
 // 太さ比較棒：細い棒から太い棒へ。輪は、合う太さの棒にだけ入る
 function buildFutosa(){
   const nk = S.ftKinds, cap = 2, { sp, ow, h } = sideBase(nk, cap, U * 0.1);
-  const pwMax = ow * 1.05, pwMin = pwMax * 0.32, mg = ow - pwMax / 2;
+  // 棒の太さは細→太へ。輪の外側は全部同じ大きさにして、違いは穴（棒の太さ）だけにする
+  const pwMax = ow * 1.1, pwMin = pwMax * 0.2, OR = pwMax / 2 + U * 0.03;
   for (let k = 0; k < nk; k++){
     const pw = pwMin + (pwMax - pwMin) * k / (nk - 1);
-    TG.push({ type: 'pole', x: LY.board.x + sp * (k + 0.5), pw, cap, col: null, kind: k, items: [], top: SC.y0 - h * (cap + 0.9), foot: pw / 2 + mg * 0.6 });
+    TG.push({ type: 'pole', x: LY.board.x + sp * (k + 0.5), pw, cap, col: null, kind: k, items: [], top: SC.y0 - h * (cap + 0.9), foot: OR * 1.1 });
   }
-  for (let k = 0; k < nk * cap; k++){ const kind = k % nk, pw = TG[kind].pw; PC.push(newPiece({ shape: 'ring', kind, ow: pw / 2 + mg, hw: pw / 2 * 1.15 + 1, h, hr: pw / 2 + mg, col: '#e9cc98' })); }
+  for (let k = 0; k < nk * cap; k++){
+    const kind = k % nk, pw = TG[kind].pw;
+    PC.push(newPiece({ shape: 'ring', kind, ow: OR, hw: pw / 2 * 1.08 + 1, h, hr: OR, col: '#e9cc98' }));
+  }
 }
 
 // トレイ（置き場）の場所。毎回まぜて並べる

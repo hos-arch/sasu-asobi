@@ -181,7 +181,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #e0b24a;outline-offse
         </div>
       </div>
       <div class="row" data-only="futosa">
-        <h3>輪の数（厚さのちがい）</h3>
+        <h3>輪の数</h3>
         <div class="opts">
           <button class="opt" data-set="ftKinds" data-v="2">2種</button>
           <button class="opt" data-set="ftKinds" data-v="3">3種</button>
@@ -224,7 +224,7 @@ button:focus-visible,input:focus-visible{outline:3px solid #e0b24a;outline-offse
         <p class="note">ペグは、どの穴に入れてもかまいません。入れたペグは、指でつまんで抜くこともできます。</p>
       </div>
       <div class="row" data-only="futosa">
-        <p class="note">棒は2本とも同じ太さです。輪は穴がみな棒に合い、外側の厚みがちがいます。厚い輪から下に、上へ行くほど薄い輪になるように重ねます。合わない重ね方のときは、上にのってもどります。</p>
+        <p class="note">棒は2本とも同じ太さです。輪は穴がみな棒に合い、外側の厚みがちがいます。どの輪もどの棒にも刺せます。順番は問いません。厚さのちがいは、刺すと棒の上で見えてきます。太い・細いの言葉かけに使ってください。</p>
       </div>
       <div class="row">
         <p class="note">手助け「大きい」は、台の上のどこで離しても、合う所へ入ります。「小さい」は、穴や棒のすぐ近くで離したときだけ入ります。</p>
@@ -528,7 +528,7 @@ function assignHomes(){
 function accepts(t, p){
   if (t.items.length >= t.cap) return false;
   if (S.scene === 'enchu') return t.kind === p.kind;
-  if (S.scene === 'futosa'){ const top = t.items[t.items.length - 1]; return !top || p.kind < top.kind; }
+  if (S.scene === 'futosa') return true;   // 順番は問わない。刺せたことが目的（輪の厚さは刺すと見えてくる）
   if (S.scene === 'plasten' && S.plColor === 'on') return t.col === p.col;
   return true;
 }
